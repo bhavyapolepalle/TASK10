@@ -1,0 +1,70 @@
+import random
+
+class User:
+    def __init__(self, name):
+        self.name = name
+        self.ratings = {}
+
+    def rate_audio(self, audio, rating):
+        if 1 <= rating <= 5:
+            if audio.title not in self.ratings:
+                self.ratings[audio.title] = []
+            self.ratings[audio.title].append(rating)
+            audio.update_rating(rating)
+
+    def rate_playlist(self, playlist, rating):
+        if 1 <= rating <= 5:
+            if playlist.name not in self.ratings:
+                self.ratings[playlist.name] = []
+            self.ratings[playlist.name].append(rating)
+            playlist.update_rating(rating)
+
+
+class Audio:
+    def __init__(self, title, url):
+        self.title = title
+        self.url = url
+        self.ratings = []
+
+    def update_rating(self, rating):
+        self.ratings.append(rating)
+        self.average_rating = sum(self.ratings) / len(self.ratings)
+
+    def search_by_name(name, audio_list):
+        return [audio for audio in audio_list if name.lower() in audio.title.lower()]
+
+
+class Playlist:
+    def __init__(self, name, genre):
+        self.name = name
+        self.genre = genre
+        self.audio_files = []
+        self.ratings = []
+
+    def add_audio(self, audio):
+        self.audio_files.append(audio)
+
+    def update_rating(self, rating):
+        self.ratings.append(rating)
+        self.average_rating = sum(self.ratings) / len(self.ratings)
+
+    def search_by_name(name, playlist_list):
+        return [playlist for playlist in playlist_list if name.lower() in playlist.name.lower()]
+
+
+# Example usage:
+audio1 = Audio("Song One", "http://example.com/song1")
+audio2 = Audio("Song Two", "http://example.com/song2")
+playlist1 = Playlist("Chill Vibes", "Chill")
+playlist1.add_audio(audio1)
+playlist1.add_audio(audio2)
+
+user1 = User("Alice")
+user1.rate_audio(audio1, 5)
+user1.rate_audio(audio2, 3)
+user1.rate_playlist(playlist1, 4)
+
+print(f"Average rating for {audio1.title}: {audio1.average_rating}")
+print(f"Average rating for {playlist1.name}: {playlist1.average_rating}")
+print(Audio.search_by_name("song", [audio1, audio2]))
+print(Playlist.search_by_name("chill", [playlist1]))

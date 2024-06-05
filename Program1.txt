@@ -1,0 +1,4 @@
+Open your terminal or command prompt.
+Run the following command to generate the requirements.txt file
+pip freeze > requirements.txt
+pip install -r requirements.txt

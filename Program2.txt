@@ -1,0 +1,2 @@
+To install the Flask module with a version less than 2.0 using pip, you can use the following command in your terminal or command prompt:
+pip install "Flask<2.0"
